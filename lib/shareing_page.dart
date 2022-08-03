@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 /// import 'package:multiple_search_selection/multiple_search_selection.dart';
 
-import 'constants.dart';
+/// import 'constants.dart';
 import 'model/User.dart';
 
 class SharingPage extends StatefulWidget {
@@ -81,6 +81,8 @@ class _SharingPageState extends State<SharingPage> {
   ];
 
   List<User> _foundedUsers = [];
+  List<User> _selectedReceiver = [];
+
 
   @override
   void initState() {
@@ -138,7 +140,7 @@ class _SharingPageState extends State<SharingPage> {
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
-                              cursorColor: Colors.white,
+                                  cursorColor: Colors.white,
 
                               decoration: InputDecoration(
                                   filled: true,
@@ -161,6 +163,8 @@ class _SharingPageState extends State<SharingPage> {
                               /// Search Receiver
                               keyboardType: TextInputType.text,
                             ),
+
+
                           ),
                         ),
                         isShowable
@@ -225,6 +229,34 @@ class _SharingPageState extends State<SharingPage> {
                 const SizedBox(
                   height: 50,
                 ),
+
+                Row(
+                    /*children: const [
+                      SizedBox(
+                          child: _selectedReceiver.isNotEmpty
+                              ? ListView.builder(itemBuilder: itemBuilder)
+                              : const Center(
+                              child: Text(
+                                "No receivers chosen",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                      ),
+                    ],*/
+
+                  children: [
+                    SizedBox(
+                      width: double.minPositive,
+                      height: 10,           /// height will be dynamic later
+                      child: Container(
+                        color: Colors.red,
+                        child: Text("This is  Test Text More work will be done inshaAllah in this portion"),
+                      ),
+                    )
+                  ],
+
+
+                ),
+
                 Row(
                   children: const [
                     Expanded(
@@ -265,6 +297,7 @@ class _SharingPageState extends State<SharingPage> {
 
                   ],
                 ),
+
               ],
             )),
           ),
