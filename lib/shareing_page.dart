@@ -357,7 +357,7 @@ class _SharingPageState extends State<SharingPage> {
 
               });
             },
-            child: AnimatedContainer(
+            /*child: AnimatedContainer(
                 height: 35,
                 width: 110,
                 duration: const Duration(milliseconds: 300),
@@ -376,7 +376,7 @@ class _SharingPageState extends State<SharingPage> {
                         style: TextStyle(
                             color: user.isFollowedByMe
                                 ? Colors.white
-                                : Colors.white)))),
+                                : Colors.white)))),*/
           )
         ],
       ),
