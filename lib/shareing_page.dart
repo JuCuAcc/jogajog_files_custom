@@ -369,7 +369,7 @@ class _SharingPageState extends State<SharingPage> {
                     border: Border.all(
                       color: user.isFollowedByMe
                           ? Colors.transparent
-                          : Colors.grey.shade700,
+                          : Colors.grey.shade700 ,
                     )),
                 child: Center(
                     child: Text(user.isFollowedByMe ? 'Unselect' : 'Select',
