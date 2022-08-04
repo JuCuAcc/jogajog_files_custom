@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'model/Choice.dart';
+import 'model/SelectCard.dart';
 /// import 'package:multiple_search_selection/multiple_search_selection.dart';
 
 /// import 'constants.dart';
@@ -40,7 +42,7 @@ class _SharingPageState extends State<SharingPage> {
     User(
         4,
         'Kathleen Dyer',
-        'kathleen@@gmail.com',
+        'kathleen@gmail.com',
         'https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=ddcb7ec744fc63472f2d9e19362aa387',
         false),
     User(
@@ -143,8 +145,22 @@ class _SharingPageState extends State<SharingPage> {
         false)
   ];
 
+
+  final List<Choice> choices = <Choice>[
+    const Choice(title: 'Home', icon: Icons.home),
+    const Choice(title: 'Contact', icon: Icons.contacts),
+    const Choice(title: 'Map', icon: Icons.map),
+    const Choice(title: 'Phone', icon: Icons.phone),
+    const Choice(title: 'Camera', icon: Icons.camera_alt),
+    const Choice(title: 'Setting', icon: Icons.settings),
+    const Choice(title: 'Album', icon: Icons.photo_album),
+    const Choice(title: 'WiFi', icon: Icons.wifi),
+  ];
+
   List<User> _foundedUsers = [];
   List<User> _selectedReceiver = [];
+  List<User> _selectedReceiverCopy = [];
+
 
   @override
   void initState() {
@@ -158,7 +174,7 @@ class _SharingPageState extends State<SharingPage> {
   onSearch(String search) {
     setState(() {
       _foundedUsers = _users
-          .where((user) => user.name.toLowerCase().contains(search))
+          .where((user) => user.name.toLowerCase().contains(search) || user.username.toLowerCase().contains(search) || user.id.toString().contains(search))
           .toList();
       if (_foundedUsers.isNotEmpty) {
         isShowable = true;
@@ -285,6 +301,53 @@ class _SharingPageState extends State<SharingPage> {
                 const SizedBox(
                   height: 50,
                 ),
+
+
+                /*Stack(
+                  children: <Widget>[
+                    Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.red,
+                    ),
+                    Container(
+                      width: 90,
+                      height: 90,
+                      color: Colors.green,
+                    ),
+                    Container(
+                      width: 80,
+                      height: 80,
+                      color: Colors.blue,
+                    ),
+                  ],
+                ),*/
+
+
+              SizedBox(
+
+
+
+
+                  height: 200,
+                  child: Stack(
+                    children: <Widget>[
+                      GridView.count(
+                        padding: const EdgeInsets.all(2),
+                        crossAxisCount: 5,
+                        crossAxisSpacing: 1.0,
+                        mainAxisSpacing: 1.0,
+                        children: List.generate(_selectedReceiverCopy.length, (index) {
+                          return Center(
+                            /// child: SelectCard(choice: choices[index]),
+                            child: SelectCard(userToShow:_selectedReceiverCopy[index]),
+                          );
+                        }),
+                      )
+                    ],
+                  ),
+                ),
+
                 Row(
                   // children: const [
                   //     SizedBox(
@@ -446,14 +509,14 @@ class _SharingPageState extends State<SharingPage> {
                       _selectedReceiver.add(user);
                     }
                   }
-                } else {
+                } else if(user.isSelected) {
                   print("in");
                   _selectedReceiver.add(user);
                   return;
                 }
 
 
-
+                _selectedReceiverCopy = _selectedReceiver;
 
               });
             },
