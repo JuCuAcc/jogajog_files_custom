@@ -3,7 +3,7 @@ class User {
   final String name;
   final String username;
   final String image;
-  bool isFollowedByMe;
+  bool isSelected;
 
-  User(this.id,  this.name, this.username, this.image, this.isFollowedByMe);
+  User(this.id,  this.name, this.username, this.image, this.isSelected);
 }
