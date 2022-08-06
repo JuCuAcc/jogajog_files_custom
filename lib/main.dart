@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (ctx) => const SharingPage(),
+        '/': (ctx) => SharingPage(),
       },
     );
   }

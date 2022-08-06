@@ -3,13 +3,18 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'model/Choice.dart';
 import 'model/SelectCard.dart';
+
 /// import 'package:multiple_search_selection/multiple_search_selection.dart';
 
 /// import 'constants.dart';
 import 'model/User.dart';
 
 class SharingPage extends StatefulWidget {
-  const SharingPage({Key? key}) : super(key: key);
+  final _SharingPageState _state = _SharingPageState();
+
+  _SharingPageState get state => _state;
+
+  SharingPage({Key? key}) : super(key: key);
 
   @override
   State<SharingPage> createState() => _SharingPageState();
@@ -145,7 +150,6 @@ class _SharingPageState extends State<SharingPage> {
         false)
   ];
 
-
   final List<Choice> choices = <Choice>[
     const Choice(title: 'Home', icon: Icons.home),
     const Choice(title: 'Contact', icon: Icons.contacts),
@@ -158,9 +162,12 @@ class _SharingPageState extends State<SharingPage> {
   ];
 
   List<User> _foundedUsers = [];
-  List<User> _selectedReceiver = [];
-  List<User> _selectedReceiverCopy = [];
+  List<User> selectedReceiver = [];
 
+  removeSelectedUser(int index) {
+    selectedReceiver.removeAt(index);
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -174,7 +181,10 @@ class _SharingPageState extends State<SharingPage> {
   onSearch(String search) {
     setState(() {
       _foundedUsers = _users
-          .where((user) => user.name.toLowerCase().contains(search) || user.username.toLowerCase().contains(search) || user.id.toString().contains(search))
+          .where((user) =>
+              user.name.toLowerCase().contains(search) ||
+              user.username.toLowerCase().contains(search) ||
+              user.id.toString().contains(search))
           .toList();
       if (_foundedUsers.isNotEmpty) {
         isShowable = true;
@@ -299,55 +309,86 @@ class _SharingPageState extends State<SharingPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 5,
                 ),
-
-
-                /*Stack(
-                  children: <Widget>[
-                    Container(
-                      width: 100,
-                      height: 100,
-                      color: Colors.red,
-                    ),
-                    Container(
-                      width: 90,
-                      height: 90,
-                      color: Colors.green,
-                    ),
-                    Container(
-                      width: 80,
-                      height: 80,
-                      color: Colors.blue,
-                    ),
-                  ],
-                ),*/
-
-
-              SizedBox(
-
-
-
-
+                SizedBox(
                   height: 200,
-                  child: Stack(
-                    children: <Widget>[
-                      GridView.count(
-                        padding: const EdgeInsets.all(2),
-                        crossAxisCount: 5,
-                        crossAxisSpacing: 1.0,
-                        mainAxisSpacing: 1.0,
-                        children: List.generate(_selectedReceiverCopy.length, (index) {
-                          return Center(
-                            /// child: SelectCard(choice: choices[index]),
-                            child: SelectCard(userToShow:_selectedReceiverCopy[index]),
-                          );
-                        }),
-                      )
-                    ],
+                  child: GridView.count(
+                    padding: const EdgeInsets.all(2),
+                    crossAxisCount: 5,
+                    crossAxisSpacing: 1.0,
+                    mainAxisSpacing: 1.0,
+                    children: List.generate(
+                      selectedReceiver.length,
+                      (index) {
+                        return Stack(
+                          children: [
+                            Card(
+                                color: Colors.white,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      /// Expanded(child: Icon(choice?.icon, size:50.0, color: textStyle!.color)),
+
+                                      Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: InkWell(
+                                          child: SizedBox(
+                                            width: 60,
+                                            height: 60,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: selectedReceiver[index]
+                                                      .image
+                                                      .toString()
+                                                      .contains('http')
+                                                  ? Image.network(
+                                                      selectedReceiver[
+                                                              index]
+                                                          .image)
+                                                  : Image.asset(
+                                                      selectedReceiver[
+                                                              index]
+                                                          .image),
+                                            ),
+                                          ),
+                                          /*onTap: () {
+                                            removeSelectedUser(index);
+                                          },*/
+                                        ),
+                                      ),
+                                      const SizedBox(width: 2),
+
+                                      /*FlatButton(
+                onPressed: () => Navigator.pop(context, false), // passing false
+                child: Text('No'),
+              ),*/
+
+                                      Text(selectedReceiver[index].username,
+                                          style: const TextStyle(
+                                              color: Colors.blue,
+                                              fontSize: 7)),
+                                    ])),
+                            Positioned(
+                                top: 0,
+                                right: 0,
+                                child: IconButton(
+                                icon: const Icon(
+                                Icons.remove_circle,
+                                color: Colors.red,
+                              ),
+                              onPressed: (){
+                                removeSelectedUser(index);
+                              },
+                            )),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
-
                 Row(
                   // children: const [
                   //     SizedBox(
@@ -372,17 +413,19 @@ class _SharingPageState extends State<SharingPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           color: Colors.yellow,
-                          child:  Center(
-                              child: SizedBox(
-                                child: Text(
-                                   '${_selectedReceiver.length} receiver is selected.',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red,
-                                  ),
+                          child: Center(
+                            child: SizedBox(
+                              child: Text(
+                                '${selectedReceiver.length} receiver is selected.',
+
+                                /// How many receivers
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
                                 ),
                               ),
+                            ),
                           ),
                         ),
                       ),
@@ -450,7 +493,7 @@ class _SharingPageState extends State<SharingPage> {
                       elevation: 5,
                       tooltip: 'Choose File',
                       onPressed: () {
-                        for(User us in _selectedReceiver){
+                        for (User us in selectedReceiver) {
                           print(us.username);
                         }
                       },
@@ -499,25 +542,21 @@ class _SharingPageState extends State<SharingPage> {
               setState(() {
                 user.isSelected = !user.isSelected;
 
-                if (user.isSelected && _selectedReceiver.isNotEmpty) {
+                if (user.isSelected && selectedReceiver.isNotEmpty) {
                   print("in2");
-                  for (int i = 0; i < _selectedReceiver.length; i++) {
-                    if (_selectedReceiver[i].id == user.id) {
+                  for (int i = 0; i < selectedReceiver.length; i++) {
+                    if (selectedReceiver[i].id == user.id) {
                       break;
-                    } else if (_selectedReceiver[i].id != user.id &&
-                        _selectedReceiver.length - 1 == i) {
-                      _selectedReceiver.add(user);
+                    } else if (selectedReceiver[i].id != user.id &&
+                        selectedReceiver.length - 1 == i) {
+                      selectedReceiver.add(user);
                     }
                   }
-                } else if(user.isSelected) {
+                } else if (user.isSelected) {
                   print("in");
-                  _selectedReceiver.add(user);
+                  selectedReceiver.add(user);
                   return;
                 }
-
-
-                _selectedReceiverCopy = _selectedReceiver;
-
               });
             },
             child: Row(children: [
@@ -526,7 +565,9 @@ class _SharingPageState extends State<SharingPage> {
                   height: 60,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: user.image.toString().contains('http')?Image.network(user.image):Image.asset(user.image),
+                    child: user.image.toString().contains('http')
+                        ? Image.network(user.image)
+                        : Image.asset(user.image),
                   )),
               const SizedBox(width: 10),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
