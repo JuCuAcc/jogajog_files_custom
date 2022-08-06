@@ -323,57 +323,42 @@ class _SharingPageState extends State<SharingPage> {
                       (index) {
                         return Stack(
                           children: [
-                            Card(
-                                color: Colors.white,
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      /// Expanded(child: Icon(choice?.icon, size:50.0, color: textStyle!.color)),
+                            Column(
+                                children: <Widget>[
+                                  /// Expanded(child: Icon(choice?.icon, size:50.0, color: textStyle!.color)),
 
-                                      Padding(
-                                        padding: const EdgeInsets.all(3.0),
-                                        child: InkWell(
-                                          child: SizedBox(
-                                            width: 60,
-                                            height: 60,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              child: selectedReceiver[index]
-                                                      .image
-                                                      .toString()
-                                                      .contains('http')
-                                                  ? Image.network(
-                                                      selectedReceiver[
-                                                              index]
-                                                          .image)
-                                                  : Image.asset(
-                                                      selectedReceiver[
-                                                              index]
-                                                          .image),
-                                            ),
-                                          ),
-                                          /*onTap: () {
-                                            removeSelectedUser(index);
-                                          },*/
-                                        ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: SizedBox(
+                                      width: 50,
+                                      height: 50,
+                                      child: CircleAvatar(
+                                        radius:20,
+                                        backgroundImage: selectedReceiver[index]
+                                                .image
+                                                .toString()
+                                                .contains('http')
+                                            ? NetworkImage(
+                                                selectedReceiver[
+                                                        index]
+                                                    .image)
+                                            : AssetImage(
+                                                selectedReceiver[
+                                                        index]
+                                                    .image) as ImageProvider,
                                       ),
-                                      const SizedBox(width: 2),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 2),
 
-                                      /*FlatButton(
-                onPressed: () => Navigator.pop(context, false), // passing false
-                child: Text('No'),
-              ),*/
-
-                                      Text(selectedReceiver[index].username,
-                                          style: const TextStyle(
-                                              color: Colors.blue,
-                                              fontSize: 7)),
-                                    ])),
+                                  Text(selectedReceiver[index].username,
+                                      style: const TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 7)),
+                                ]),
                             Positioned(
-                                top: 0,
-                                right: 0,
+                              top: -12,
+                              right: 10,
                                 child: IconButton(
                                 icon: const Icon(
                                 Icons.remove_circle,
@@ -504,7 +489,7 @@ class _SharingPageState extends State<SharingPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 80),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: SizedBox(
                     height: 50.0,
                     width: 100.0,
